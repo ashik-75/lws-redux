@@ -1,16 +1,20 @@
+import { useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import cancelImage from "../assets/images/cancel.png";
 import deleteTodo from "../redux/todos/thunk/deleteTodo";
 import updateColor from "../redux/todos/thunk/updateColor";
 import updateStatus from "../redux/todos/thunk/updateStatus";
+import { updateTodo } from "../redux/todos/thunk/updateTodo";
 export default function Todo({ todo }) {
   const dispatch = useDispatch();
+  const { title, _id, completed, color } = todo;
+  const [selectedTodo, setSelectedTodo] = useState(null);
+  const [updateTitle, setUpdateTitle] = useState(title);
+  const [toggle, setToggle] = useState(completed);
 
-  const { text, id, completed, color } = todo;
-
-  const handleStatusChange = (todoId) => {
-    dispatch(updateStatus(todoId, completed));
+  const handleStatusChange = () => {
+    dispatch(updateStatus(_id, toggle));
   };
 
   const handleColorChange = (todoId, color) => {
@@ -19,6 +23,13 @@ export default function Todo({ todo }) {
 
   const handleDelete = (todoId) => {
     dispatch(deleteTodo(todoId));
+  };
+
+  const handleTodoUpdate = (e) => {
+    if (e.keyCode === 13) {
+      dispatch(updateTodo(_id, updateTitle));
+      setSelectedTodo(null);
+    }
   };
 
   return (
@@ -30,13 +41,16 @@ export default function Todo({ todo }) {
       >
         <input
           type="checkbox"
-          checked={completed}
-          onChange={() => handleStatusChange(id)}
+          checked={toggle}
+          onChange={() => {
+            setToggle((prev) => !prev);
+            handleStatusChange();
+          }}
           className="opacity-0 absolute rounded-full"
         />
-        {completed && (
+        {toggle && (
           <svg
-            className="fill-current w-3 h-3 text-green-500 pointer-events-none"
+            className="fill-current w-3 h-3 title-green-500 pointer-events-none"
             viewBox="0 0 20 20"
           >
             <path d="M0 11l2-2 5 5L18 3l2 2L7 18z" />
@@ -45,10 +59,22 @@ export default function Todo({ todo }) {
       </div>
 
       <div className={`select-none flex-1 ${completed && "line-through"}`}>
-        {text}
+        {selectedTodo === _id ? (
+          <input
+            className="p-2 border-2 outline-none"
+            onKeyDown={handleTodoUpdate}
+            value={updateTitle}
+            onChange={(e) => setUpdateTitle(e.target.value)}
+          />
+        ) : (
+          title
+        )}
       </div>
 
-      <div className={`flex-shrink-0 ml-auto cursor-pointer`}>
+      <div
+        onClick={() => setSelectedTodo(_id)}
+        className={`flex-shrink-0 ml-auto cursor-pointer`}
+      >
         {" "}
         <FiEdit />{" "}
       </div>
@@ -56,28 +82,28 @@ export default function Todo({ todo }) {
         className={`flex-shrink-0 h-4 w-4 rounded-full border-2 ml-auto cursor-pointer hover:bg-green-500 border-green-500 ${
           color === "green" && "bg-green-500"
         }`}
-        onClick={() => handleColorChange(id, "green")}
+        onClick={() => handleColorChange(_id, "green")}
       ></div>
 
       <div
         className={`flex-shrink-0 h-4 w-4 rounded-full border-2 ml-auto cursor-pointer hover:bg-yellow-500 border-yellow-500 ${
           color === "yellow" && "bg-yellow-500"
         }`}
-        onClick={() => handleColorChange(id, "yellow")}
+        onClick={() => handleColorChange(_id, "yellow")}
       ></div>
 
       <div
         className={`flex-shrink-0 h-4 w-4 rounded-full border-2 ml-auto cursor-pointer hover:bg-red-500 border-red-500 ${
           color === "red" && "bg-red-500"
         }`}
-        onClick={() => handleColorChange(id, "red")}
+        onClick={() => handleColorChange(_id, "red")}
       ></div>
 
       <img
         src={cancelImage}
         className="flex-shrink-0 w-4 h-4 ml-2 cursor-pointer"
         alt="Cancel"
-        onClick={() => handleDelete(id)}
+        onClick={() => handleDelete(_id)}
       />
     </div>
   );

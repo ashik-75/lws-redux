@@ -19,12 +19,14 @@ function App() {
 
           <TodoList />
 
+          <Footer />
+
+          <br />
+          <hr />
           <br />
           <CompledTodos />
 
           <hr className="mt-4" />
-
-          <Footer />
         </div>
       </div>
     </Provider>
