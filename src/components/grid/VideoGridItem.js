@@ -4,8 +4,7 @@ import { addAuthor } from "../../features/filter/filterSlice";
 import { changePage } from "../../features/pagination/paginationSlice";
 
 export default function VideoGridItem({ video }) {
-  const { avatar, title, thumbnail, views, duration, date, link, author } =
-    video;
+  const { avatar, title, thumbnail, views, duration, date, author } = video;
 
   const dispatch = useDispatch();
 

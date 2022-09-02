@@ -5,9 +5,7 @@ import RelatedVideoListItem from "./RelatedVideoListItem";
 
 export default function RelatedVideoList({ video }) {
   const dispatch = useDispatch();
-  const { videos, loading, isError, error } = useSelector(
-    (state) => state.relatedVideos
-  );
+  const { videos } = useSelector((state) => state.relatedVideos);
 
   useEffect(() => {
     dispatch(fetchRelatedVideos({ tags: video.tags, id: video.id }));

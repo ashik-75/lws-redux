@@ -6,7 +6,7 @@ import Tag from "./Tag";
 
 export default function Tags() {
   const dispatch = useDispatch();
-  const { tags, loading, isError, error } = useSelector((state) => state.tags);
+  const { tags } = useSelector((state) => state.tags);
 
   useEffect(() => {
     dispatch(fetchTags());
