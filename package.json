@@ -1,0 +1,13 @@
+{
+  "name": "lws-rtk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.8.5",
+    "node-fetch": "2"
+  }
+}
