@@ -7,21 +7,13 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  useEditVideoMutation,
-  useGetVideoQuery,
-} from "../features/apiSlice/apiSlice";
+import { useNavigate } from "react-router-dom";
+import { useAddVideoMutation } from "../features/apiSlice/apiSlice";
 
-const EditPage = () => {
-  const { videoId } = useParams();
+const AddVideo = () => {
   const navigate = useNavigate();
-  const [editVideo, { isSuccess: editSuccess, isLoading: isEditLoading }] =
-    useEditVideoMutation();
-
-  const { data, isLoading, isError, isSuccess, error } =
-    useGetVideoQuery(videoId);
-
+  const [addVideo, { isSuccess, isLoading, isError, error }] =
+    useAddVideoMutation();
   const [videoInfo, setVideoInfo] = useState({
     title: "",
     description: "",
@@ -30,8 +22,9 @@ const EditPage = () => {
     link: "",
     date: "",
     thumbnail: "",
+    avatar: "",
   });
-  const { title, description, author, views, link, date, thumbnail } =
+  const { title, description, author, views, link, date, thumbnail, avatar } =
     videoInfo;
 
   const handleChange = (e) => {
@@ -40,18 +33,13 @@ const EditPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setVideoInfo(data);
+      navigate(`/`);
     }
-
-    if (editSuccess) {
-      navigate(`/video/${videoId}`);
-    }
-  }, [isSuccess, editSuccess]);
+  }, [isSuccess]);
 
   const handleEditSubmit = (e) => {
     e.preventDefault();
-
-    editVideo({ videoId, info: videoInfo });
+    addVideo(videoInfo);
   };
 
   return (
@@ -81,13 +69,28 @@ const EditPage = () => {
               placeholder="Enter Link"
             />
           </FormControl>
-
           <FormControl>
             <Input
               name="thumbnail"
               onChange={handleChange}
               value={thumbnail}
-              placeholder="@video thumbnails"
+              placeholder="Video thumbnail link"
+            />
+          </FormControl>
+          <FormControl>
+            <Input
+              name="author"
+              onChange={handleChange}
+              value={author}
+              placeholder="@author name"
+            />
+          </FormControl>
+          <FormControl>
+            <Input
+              name="avatar"
+              onChange={handleChange}
+              value={avatar}
+              placeholder="@avatar image"
             />
           </FormControl>
           <FormControl>
@@ -118,16 +121,17 @@ const EditPage = () => {
         </Stack>
 
         <Button
-          isLoading={isEditLoading}
+          isLoading={isLoading}
+          loadingText="Adding Video ..."
           type="submit"
           colorScheme={"teal"}
           mt={5}
         >
-          Edit Video
+          Add Video
         </Button>
       </form>
     </Box>
   );
 };
 
-export default EditPage;
+export default AddVideo;

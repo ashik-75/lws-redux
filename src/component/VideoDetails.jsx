@@ -23,7 +23,10 @@ import {
   AiOutlineLike,
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { useDeleteVideoMutation } from "../features/apiSlice/apiSlice";
+import {
+  useAddReactionMutation,
+  useDeleteVideoMutation,
+} from "../features/apiSlice/apiSlice";
 import VideoFrame from "./VideoFrame";
 
 const VideoDetails = ({ video }) => {
@@ -43,12 +46,30 @@ const VideoDetails = ({ video }) => {
   } = video;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [
+    updateReaction,
+    { isLoading: updateLoading, isSuccess: reactionSuccess },
+  ] = useAddReactionMutation();
 
   const [deleteVideo, { isLoading, isError, isSuccess }] =
     useDeleteVideoMutation();
 
   const handleDeleteVideo = () => {
     deleteVideo(id);
+  };
+
+  const hanldeLikeReaction = () => {
+    updateReaction({
+      videoId: id,
+      info: { likes: likes + 1 },
+    });
+  };
+
+  const hanldeUnlikeReaction = () => {
+    updateReaction({
+      videoId: id,
+      info: { unlikes: unlikes + 1 },
+    });
   };
 
   useEffect(() => {
@@ -125,10 +146,20 @@ const VideoDetails = ({ video }) => {
 
         <Stack direction={"row"} spacing={10}>
           <HStack>
-            <AiOutlineLike size={30} /> <span>{likes}</span>
+            <AiOutlineLike
+              cursor={"pointer"}
+              onClick={hanldeLikeReaction}
+              size={30}
+            />{" "}
+            <span>{likes}</span>
           </HStack>
           <HStack>
-            <AiOutlineDislike size={30} /> <span>{unlikes}</span>
+            <AiOutlineDislike
+              cursor={"pointer"}
+              onClick={hanldeUnlikeReaction}
+              size={30}
+            />{" "}
+            <span>{unlikes}</span>
           </HStack>
         </Stack>
       </Stack>

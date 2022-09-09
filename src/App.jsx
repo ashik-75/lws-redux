@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./component/Navbar";
+import AddVideo from "./pages/AddVideo";
 import EditPage from "./pages/EditVideo";
 import HomePage from "./pages/HomePage";
 import VideoPage from "./pages/VideoPage";
@@ -12,6 +13,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/video/:videoId" element={<VideoPage />} />
         <Route path="/video/:videoId/edit" element={<EditPage />} />
+        <Route path="/videos/add" element={<AddVideo />} />
       </Routes>
     </>
   );

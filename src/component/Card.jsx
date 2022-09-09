@@ -22,14 +22,7 @@ export default function Card({ video }) {
     views,
   } = video;
   return (
-    <Box
-      w={"full"}
-      //   bg={"gray.900"}
-      boxShadow={"2xl"}
-      rounded={"md"}
-      p={6}
-      overflow={"hidden"}
-    >
+    <Box w={"full"} boxShadow={"2xl"} rounded={"md"} p={6} overflow={"hidden"}>
       <Box
         as={Link}
         to={`video/${id}`}

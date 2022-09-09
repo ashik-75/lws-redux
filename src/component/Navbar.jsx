@@ -1,9 +1,10 @@
-import { Box, Text } from "@chakra-ui/react";
+import { SmallAddIcon } from "@chakra-ui/icons";
+import { Button, Flex, Spacer, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <Box p={4} bg="gray.100">
+    <Flex p={4} bg="gray.100">
       <Text
         as={Link}
         to="/"
@@ -13,7 +14,18 @@ const Navbar = () => {
       >
         Spectra
       </Text>
-    </Box>
+
+      <Spacer />
+
+      <Button
+        as={Link}
+        to="/videos/add"
+        colorScheme={"linkedin"}
+        rightIcon={<SmallAddIcon />}
+      >
+        Add Video
+      </Button>
+    </Flex>
   );
 };
 
