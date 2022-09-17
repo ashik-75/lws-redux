@@ -1,19 +1,56 @@
+import { Spinner } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
-import Navbar from "./component/Navbar";
-import AddVideo from "./pages/AddVideo";
-import EditPage from "./pages/EditVideo";
+import PrivateRoute from "./components/Guard/PrivateRoute";
+import PublicRoute from "./components/Guard/PublicRoute";
+import Navbar from "./components/Navbar";
+import useAuthCheck from "./hooks/useAuthCheck";
+import ChatPage from "./pages/ChatPage";
+import ConversationsPage from "./pages/ConversationsPage";
 import HomePage from "./pages/HomePage";
-import VideoPage from "./pages/VideoPage";
+import Login from "./pages/Login";
+import RegisterPage from "./pages/RegisterPage";
 
 const App = () => {
-  return (
+  const authChecking = useAuthCheck();
+  return authChecking ? (
+    <Spinner />
+  ) : (
     <>
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/video/:videoId" element={<VideoPage />} />
-        <Route path="/video/:videoId/edit" element={<EditPage />} />
-        <Route path="/videos/add" element={<AddVideo />} />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <RegisterPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/chat-page"
+          element={
+            <PrivateRoute>
+              <ChatPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/conv"
+          element={
+            <PrivateRoute>
+              <ConversationsPage />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </>
   );
