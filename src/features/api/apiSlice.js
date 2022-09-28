@@ -1,19 +1,50 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import axios from "axios";
+import { tokenReceived, userLoggedOut } from "../auth/authSlice";
+
+const baseQuery = fetchBaseQuery({
+  baseUrl: `http://localhost:7000`,
+  prepareHeaders: (headers, { getState }) => {
+    const token = getState()?.auth?.accessToken;
+
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+
+    return headers;
+  },
+});
 
 export const apiSlice = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl: `http://localhost:9000/`,
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState()?.auth?.accessToken;
-      console.log({ token });
+  baseQuery: async (args, api, extraOptions) => {
+    let result = await baseQuery(args, api, extraOptions);
 
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+    console.log(result);
+
+    if (result?.error && result?.error?.status === 401) {
+      const refreshToken = api.getState()?.auth?.refreshToken;
+      console.log({ refreshToken });
+      const refreshResult = await axios.post(
+        "http://localhost:7000/api/auth/refresh",
+        {
+          refreshToken,
+        }
+      );
+
+      console.log({ refreshResult });
+
+      if (refreshResult) {
+        api.dispatch(tokenReceived(refreshResult.data));
+        localStorage.setItem("auth", JSON.stringify(refreshResult.data));
+        result = await baseQuery(args, api, extraOptions);
+      } else {
+        api.dispatch(userLoggedOut());
+        localStorage.removeItem("auth");
       }
+    }
 
-      return headers;
-    },
-  }),
+    return result;
+  },
   tagTypes: [""],
   endpoints: (builder) => ({}),
 });

@@ -5,7 +5,7 @@ const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (data) => ({
-        url: "/register",
+        url: "/api/auth/register",
         body: data,
         method: "POST",
       }),
@@ -15,8 +15,9 @@ const authApi = apiSlice.injectEndpoints({
         localStorage.setItem(
           "auth",
           JSON.stringify({
+            refreshToken: result.data?.refreshToken,
             accessToken: result.data.accessToken,
-            user: result.data.user,
+            email: result.data.email,
           })
         );
 
@@ -25,7 +26,7 @@ const authApi = apiSlice.injectEndpoints({
     }),
     login: builder.mutation({
       query: (data) => ({
-        url: "/login",
+        url: "/api/auth/login",
         method: "POST",
         body: data,
       }),
@@ -37,8 +38,9 @@ const authApi = apiSlice.injectEndpoints({
           localStorage.setItem(
             "auth",
             JSON.stringify({
+              refreshToken: result.data.refreshToken,
               accessToken: result.data.accessToken,
-              user: result.data.user,
+              email: result.data.email,
             })
           );
 

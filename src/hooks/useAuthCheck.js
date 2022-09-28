@@ -14,8 +14,9 @@ const useAuthCheck = () => {
     if (localAuthUser) {
       dispatch(
         userLoggedIn({
+          refreshToken: localAuthUser?.refreshToken,
           accessToken: localAuthUser?.accessToken,
-          user: localAuthUser?.user,
+          email: localAuthUser?.email,
         })
       );
     }

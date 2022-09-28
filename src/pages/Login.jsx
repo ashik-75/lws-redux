@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   FormControl,
@@ -75,6 +76,12 @@ const Login = () => {
             Login
           </Button>
         </form>
+
+        {isError && (
+          <Alert status="warning" backgroundColor={"red"} my={4}>
+            {error?.data?.message}
+          </Alert>
+        )}
       </Box>
     </Box>
   );
