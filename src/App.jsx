@@ -7,7 +7,7 @@ import Answer from "./components/Section/Answer";
 import useAuthCheck from "./hooks/useAuthCheck";
 import ChatPage from "./pages/ChatPage";
 import ConversationsPage from "./pages/ConversationsPage";
-import HomePage from "./pages/HomePage";
+import Infinite from "./pages/Infinite";
 import Login from "./pages/Login";
 import RegisterPage from "./pages/RegisterPage";
 import UsersPage from "./pages/UsersPage";
@@ -20,7 +20,7 @@ const App = () => {
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Infinite />} />
         <Route path="/answer/:questionId" element={<Answer />} />
         <Route
           path="/register"
