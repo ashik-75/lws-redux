@@ -31,7 +31,6 @@ const Infinite = () => {
           </Box>
         }
         hasMore={hasMore}
-        height={"400px"}
         endMessage={
           !hasMore && (
             <p style={{ textAlign: "center" }}>

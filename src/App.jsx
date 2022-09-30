@@ -9,6 +9,7 @@ import ChatPage from "./pages/ChatPage";
 import ConversationsPage from "./pages/ConversationsPage";
 import Infinite from "./pages/Infinite";
 import Login from "./pages/Login";
+import Qapage from "./pages/Qapage";
 import RegisterPage from "./pages/RegisterPage";
 import UsersPage from "./pages/UsersPage";
 
@@ -27,6 +28,14 @@ const App = () => {
           element={
             <PublicRoute>
               <RegisterPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/qa"
+          element={
+            <PublicRoute>
+              <Qapage />
             </PublicRoute>
           }
         />
