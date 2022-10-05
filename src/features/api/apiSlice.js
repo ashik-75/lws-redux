@@ -3,7 +3,7 @@ import axios from "axios";
 import { tokenReceived, userLoggedOut } from "../auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: `http://localhost:7000`,
+  baseUrl: `http://localhost:8001`,
   prepareHeaders: (headers, { getState }) => {
     const token = getState()?.auth?.accessToken;
 
@@ -43,6 +43,6 @@ export const apiSlice = createApi({
 
     return result;
   },
-  tagTypes: [""],
+  tagTypes: ["qa"],
   endpoints: (builder) => ({}),
 });

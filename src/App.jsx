@@ -9,8 +9,11 @@ import ChatPage from "./pages/ChatPage";
 import ConversationsPage from "./pages/ConversationsPage";
 import Infinite from "./pages/Infinite";
 import Login from "./pages/Login";
+import Memorize from "./pages/memoization/Memorize";
 import Qapage from "./pages/Qapage";
+import QATEST from "./pages/QATEST";
 import RegisterPage from "./pages/RegisterPage";
+import SingleQA from "./pages/SingleQA";
 import UsersPage from "./pages/UsersPage";
 
 const App = () => {
@@ -22,6 +25,7 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Infinite />} />
+        <Route path="/memo" element={<Memorize />} />
         <Route path="/answer/:questionId" element={<Answer />} />
         <Route
           path="/register"
@@ -36,6 +40,22 @@ const App = () => {
           element={
             <PublicRoute>
               <Qapage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/qa/:qaId"
+          element={
+            <PublicRoute>
+              <SingleQA />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/qa-test/:qaId"
+          element={
+            <PublicRoute>
+              <QATEST />
             </PublicRoute>
           }
         />

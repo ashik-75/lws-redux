@@ -38,13 +38,18 @@ const Navbar = () => {
       </Text>
       <Spacer />
       <Stack direction={"row"}>
-        <Button as={Link} to="/users">
-          Users
-        </Button>
         {auth ? (
-          <Button onClick={handleLogout} colorScheme={"pink"}>
-            Logout
-          </Button>
+          <ButtonGroup>
+            <Button as={Link} to="/users">
+              Users
+            </Button>
+            <Button as={Link} to="/qa">
+              qa
+            </Button>
+            <Button onClick={handleLogout} colorScheme={"pink"}>
+              Logout
+            </Button>
+          </ButtonGroup>
         ) : (
           <ButtonGroup>
             <Button onClick={() => navigate("/login")}>Login</Button>
